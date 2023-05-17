@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <set>
+#include <map>
+
+using namespace std;
+
+int main(){
+    
+    set<string> quesitos;
+    
+    vector<map<string, int>> criancas;
+    
+    // Dentro do loop que le linhas:
+    
+    string linha;
+    
+    vector<string> atributosSeparados = separaPorDelimitador(linha, ',');
+    int tamanhoVetor = atributosSeparados.size();
+    int numeroAtributos = tamanhoVetor/2;
+    map<string, int> novaCrianca;
+    
+    novaCrianca["Nome"] = atributosSeparados[0];
+    
+    for(int i = 1; i<tamanhoVetor; i+=2){
+        
+        novaCrianca[atributosSeparados[i]] = stoi(atributosSeparados[i+1]);
+        quesito.insert(atributosSeparados[i]);
+        
+    }
+    
+    criancas.push_back(novaCrianca);
+    
+    // Relatorio por quesito:
+    
+    for(auto: quesito: quesitos){
+        
+        // print 
+        
+    }
+    
+}
