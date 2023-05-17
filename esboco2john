@@ -6,12 +6,23 @@
 
 using namespace std;
 
+struct Ocorrencia{
+    int cvermelho;
+    int camarelo;
+    int penalti
+    int falta;
+    int gol;
+    int cruzamento;
+    int drible;
+    int cabeceio;
+    int desarme;
+    int escanteio;
+} Ocor;
+
 struct Dados {
     string nome;
-    string sobrenome;
-    string ocorrencia;
-   
-};
+    Ocor ocorrencia[];
+} Data;
 
 vector <string> separaPorDelimitador(string s, char delimitador){
     
@@ -52,10 +63,10 @@ vector<Dados> lerArquivoCSV(const string& nomeArquivo) {
             valores.push_back(valor);
         }
 
-        if (valores.size() == 4) {
+        if (valores.size() == ) {
             Dados dadosTemp;
             dadosTemp.nome = valores[0];
-            dadosTemp.sobrenome = valores[1];
+            dadosTemp.ocorrencia =
             dados.push_back(dadosTemp);
         }
     }
@@ -71,15 +82,14 @@ void criarRelatorio(const vector<Dados>& dados) {
         return;
     }
 
-    relatorio << "Relatório de Dados" << endl;
-    relatorio << "=================" << endl;
+    cout << "Relatório de Dados" << endl;
+    cout << "=================" << endl;
 
     for (const auto& dado : dados) {
-        relatorio << "Nome: " << dado.nome << " " << dado.sobrenome << endl;
-        relatorio << "-----------------" << endl;
+        cout << "Nome: " << dado.nome << " " << dado.sobrenome << endl;
+        cout << "-----------------" << endl;
     }
 
-    relatorio.close();
     cout << "Relatório criado com sucesso!" << endl;
 }
 
