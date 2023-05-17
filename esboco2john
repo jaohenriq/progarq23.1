@@ -9,9 +9,30 @@ using namespace std;
 struct Dados {
     string nome;
     string sobrenome;
-    int idade;
-    string email;
+    string ocorrencia;
+   
 };
+
+vector <string> separaPorDelimitador(string s, char delimitador){
+    
+    vector <string> stringsSeparadas;
+    vector <int> pontosDeSeparacao;
+    
+    pontosDeSeparacao.push_back(0);
+    for(int i = 0; i<s.size(); i++){
+        if(s[i] == delimitador)
+            pontosDeSeparacao.push_back(i+1);
+    }
+    
+    for(int j = 0; j<pontosDeSeparacao.size()-1; j++){
+        stringsSeparadas.push_back(s.substr(pontosDeSeparacao[j], pontosDeSeparacao[j+1] - pontosDeSeparacao[j] - 1));
+    }
+    
+        stringsSeparadas.push_back(s.substr(pontosDeSeparacao.back(), pontosDeSeparacao.size()));
+        
+    return stringsSeparadas;
+    
+}
 
 vector<Dados> lerArquivoCSV(const string& nomeArquivo) {
     vector<Dados> dados;
@@ -35,8 +56,6 @@ vector<Dados> lerArquivoCSV(const string& nomeArquivo) {
             Dados dadosTemp;
             dadosTemp.nome = valores[0];
             dadosTemp.sobrenome = valores[1];
-            dadosTemp.idade = stoi(valores[2]);
-            dadosTemp.email = valores[3];
             dados.push_back(dadosTemp);
         }
     }
@@ -57,8 +76,6 @@ void criarRelatorio(const vector<Dados>& dados) {
 
     for (const auto& dado : dados) {
         relatorio << "Nome: " << dado.nome << " " << dado.sobrenome << endl;
-        relatorio << "Idade: " << dado.idade << endl;
-        relatorio << "Email: " << dado.email << endl;
         relatorio << "-----------------" << endl;
     }
 
