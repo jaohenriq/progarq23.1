@@ -1,28 +1,28 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <vector>
 #include <string>
+#include <vector>
+#include <set>
+#include <map>
 
 using namespace std;
 
-struct Ocorrencia{
-    int cvermelho;
-    int camarelo;
-    int penalti
-    int falta;
-    int gol;
-    int cruzamento;
-    int drible;
-    int cabeceio;
-    int desarme;
-    int escanteio;
-} Ocor;
+vector<string> lerArquivoCSV(string& nomeArquivo) {
+    vector<string> linhas;
+    ifstream arquivo(nomeArquivo);
+    if (!arquivo) {
+        cerr << "Erro ao abrir o arquivo " << nomeArquivo << endl;
+        return linhas;
+    }
 
-struct Dados {
-    string nome;
-    Ocor ocorrencia[];
-} Data;
+    string linha;
+    while (getline(arquivo, linha)) {
+        linhas.push_back(linha);
+    }
+
+    arquivo.close();
+    return linhas;
+}
 
 vector <string> separaPorDelimitador(string s, char delimitador){
     
@@ -45,58 +45,72 @@ vector <string> separaPorDelimitador(string s, char delimitador){
     
 }
 
-vector<Dados> lerArquivoCSV(const string& nomeArquivo) {
-    vector<Dados> dados;
-    ifstream arquivo(nomeArquivo);
-    if (!arquivo) {
-        cerr << "Erro ao abrir o arquivo " << nomeArquivo << endl;
-        return dados;
-    }
+string extrairData(string stringInteira){
+    
+    string data;
+    
+    string dia = stringInteira.substr(0,2);
+    string mes = stringInteira.substr(2,2);
+    string ano = stringInteira.substr(4,4);
+    
+    data = dia + "/" + mes + "/" + ano;
+    
+    return data;
+}
 
+int main(){
+    
+    
+    
+    set<string> quesitos;
+    
+    vector<map<string, int>> criancas;
+    
+    // Dentro do loop que le linhas:
+    
     string linha;
-    while (getline(arquivo, linha)) {
-        istringstream ss(linha);
-        string valor;
-        vector<string> valores;
-
-        while (getline(ss, valor, ',')) {
-            valores.push_back(valor);
+    
+    vector<string> atributosSeparados = separaPorDelimitador(linha, ',');
+    int tamanhoVetor = atributosSeparados.size();
+    int numeroAtributos = tamanhoVetor/2;
+    map<string, int> novaCrianca;
+   
+    novaCrianca["Nome"] = stoi(atributosSeparados[0]);
+    
+    for(int i = 1; i<tamanhoVetor; i+=2){
+        
+        novaCrianca[atributosSeparados[i]] = stoi(atributosSeparados[i+1]);
+        quesitos.insert(atributosSeparados[i]);
+        
+    }
+    
+    criancas.push_back(novaCrianca);
+    
+    // Relatorio por quesito:
+    
+    for(auto quesito: quesitos){
+        
+        cout << "Quesito: " << quesito << endl;
+        
+    for(auto crianca : criancas) {
+        cout << "Nome: " << crianca["Nome"] << ", ";
+        cout << quesito << ": " << crianca[quesito] << endl;
+    }
+        
+    }
+    
+    // Relatorio por crianca:
+    
+    for(auto crianca: criancas){
+        
+        for(auto quesito: crianca){
+            
+            cout << quesito.first << ": " << quesito.second << endl; 
+            
         }
-
-        if (valores.size() == ) {
-            Dados dadosTemp;
-            dadosTemp.nome = valores[0];
-            dadosTemp.ocorrencia =
-            dados.push_back(dadosTemp);
-        }
+        
+        cout << endl;
+        
     }
-
-    arquivo.close();
-    return dados;
-}
-
-void criarRelatorio(const vector<Dados>& dados) {
-    ofstream relatorio("relatorio.txt");
-    if (!relatorio) {
-        cerr << "Erro ao criar o arquivo de relatório" << endl;
-        return;
-    }
-
-    cout << "Relatório de Dados" << endl;
-    cout << "=================" << endl;
-
-    for (const auto& dado : dados) {
-        cout << "Nome: " << dado.nome << " " << dado.sobrenome << endl;
-        cout << "-----------------" << endl;
-    }
-
-    cout << "Relatório criado com sucesso!" << endl;
-}
-
-int main() {
-    string nomeArquivo = "dados.csv";
-    vector<Dados> dados = lerArquivoCSV(nomeArquivo);
-    criarRelatorio(dados);
-
-    return 0;
+    
 }
